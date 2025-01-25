@@ -1,12 +1,12 @@
-import { Request, Response } from "express"
-import { StatusCodes } from "http-status-codes"
+const { StatusCodes } = require('http-status-codes');
 
-export const info = (req: Request, res: Response) => {
+const info = (req, res) => {
     return res.status(StatusCodes.OK).json({
         success: true,
         message: "API working...",
         data: {},
         error: {}
     });
-}
+};
 
+module.exports = info;
