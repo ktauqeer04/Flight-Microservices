@@ -1,36 +1,36 @@
 const { logger } = require('../config');
 
-class crudRespository{
+class crudRespository{    
 
     constructor(model){
         this.model = model;
     }
 
     async create(data){
-        try {
-            const response = await this.model.create(data);
-            return response;
-        } catch (error) {
-            logger.error('Something went wrong in the repo : Create');
-            throw error;
-        }
+
+        const response = await this.model.create(data);
+        return response;
+        
     }
 
     async destroy(data){
         try {
+            console.log('inside crud destroy repository');
             const response = await this.model.destroy({
                 where: {
                     id: data
                 }
             })
+            return response;
         } catch (error) {
             logger.error('Something went wrong in the repo : destroy');
             throw error;
         }
     }
 
-    async get(data){
+    async get(){
         try {
+            console.log('inside crud get repository');
             const response = await this.model.findAll();
             return response;
         } catch (error) {
@@ -41,6 +41,9 @@ class crudRespository{
 
     async update(id, data){
         try {
+
+            console.log('inside crud update repository');
+            
             const response = await this.model.update(data, {
                 where:{
                     id: id
@@ -54,6 +57,4 @@ class crudRespository{
 
 }
 
-module.exports = {
-    crudRespository
-}
+module.exports = crudRespository;

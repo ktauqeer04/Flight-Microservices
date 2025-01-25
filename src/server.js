@@ -4,6 +4,14 @@ const APIRoutes = require('./routes/index');
 
 const app = express();
 
+
+//***************************** MIDDLEWARES *************************************/
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+
+// ******************************************************************************/
+
+
 app.use('/api', APIRoutes);
 
 app.listen(PORT, () => {
