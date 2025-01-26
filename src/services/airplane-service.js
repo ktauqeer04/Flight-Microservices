@@ -12,13 +12,13 @@ const createAirplane = async (data) => {
         return airplane;
 
     } catch (error) {
-        console.error(error);
+        // console.error(error);
         if(error.name == 'SequelizeValidationError'){
             let explanation = [];
             error.errors.forEach(err => {
                 explanation.push(err.message);
             });
-            console.error(explanation);
+            console.error(`explanation array : ${explanation}`);
             throw new AppError(explanation, StatusCodes.BAD_REQUEST);
         }
         throw new AppError('Something went wrong', StatusCodes.BAD_REQUEST);

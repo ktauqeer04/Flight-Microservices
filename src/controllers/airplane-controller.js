@@ -2,7 +2,6 @@ const { AirplaneService } = require('../services');
 const { StatusCodes } = require('http-status-codes');
 const { SuccessResponse, ErrorResponse } = require('../utils/common');
 
-console.log('inside airplane-controller');
 
 const createAirplane = async (req, res) => {
     try {
@@ -11,13 +10,13 @@ const createAirplane = async (req, res) => {
         const airplane = await AirplaneService.createAirplane( { modelNumber, capacity } );
         
         SuccessResponse.data = {modelNumber, capacity};
-        return res.status(StatusCodes.OK).json(SuccessResponse);
+        return res.status(StatusCodes.CREATED).json(SuccessResponse);
 
     } catch (error) {
 
-        console.error(error);
-
-        ErrorResponse.error = error;
+        // console.error(error);
+        console.log(`error is: ${error.statusCode}`);
+        ErrorResponse.error = error; // this error is custom class error i.e. AppError that we created 
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
 
     }
