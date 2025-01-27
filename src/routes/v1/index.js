@@ -1,6 +1,6 @@
 const express = require('express');
 const airplaneRoutes = require('./airplane-routes');
-
+const cityRoutes = require('./city-routes');
 const router = express.Router();
 
 // Call the `info` function from `infoController`
@@ -8,6 +8,7 @@ const router = express.Router();
 
 console.log('inside v1 route');
 
+router.use('/cities', cityRoutes);
 router.use('/airplanes', airplaneRoutes);
 
 

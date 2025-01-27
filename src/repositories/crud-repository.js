@@ -13,6 +13,8 @@ class crudRespository{
     }
 
     async destroy(data){
+        console.log(`control reaches before`);
+        
         const response = await this.model.destroy({
             where: {
                 id: data
