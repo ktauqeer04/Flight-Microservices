@@ -25,6 +25,70 @@ const createAirplane = async (data) => {
     }
 }
 
+
+const getAirplanes = async() => {
+    try {
+        const airplanes = await airplaneRepository.get();
+        return airplanes;
+    } catch (error) {
+        throw new AppError('Cannot fetch airplanes', StatusCodes.BAD_REQUEST);
+    }
+}
+
+
+// data -> req.params.id
+const getAirplanesByPK = async (data) => {
+    try {
+        const specificAirplane = await airplaneRepository.getByPK(data);
+        console.log(`specifix airplane ${specificAirplane}`);
+        return specificAirplane;
+    } catch (error) {
+
+        // console.log(`Status code is ${error.statusCode}`);
+        // console.log(`error is ${error}`);
+        if(error.statusCode == StatusCodes.NOT_FOUND){
+            throw new AppError('The Airplane you Requested does not Exists', StatusCodes.NOT_FOUND);
+        }
+        throw new Error('Something went wrong', StatusCodes.BAD_REQUEST);
+
+    }
+}
+
+
+const deleteAirplane = async (data) => {
+    try {
+        
+        const airplane = await airplaneRepository.destroy(data);
+        return airplane;
+
+    } catch (error) {
+        
+        if(error.statusCode == StatusCodes.NOT_FOUND){
+            throw new AppError('The Airplane you Requested does not Exists', StatusCodes.NOT_FOUND);
+        }
+        throw new AppError('Something went wrong in Service layer', StatusCodes.INTERNAL_SERVER_ERROR);
+
+    }
+}
+
+const updatesAirplane = async (id, data) => {
+
+    try {
+        const updateThisAirplane = await airplaneRepository.update(id, data);
+        return updateThisAirplane;
+    } catch (error) {
+        if(error.statusCode == StatusCodes.NOT_FOUND){
+            throw new AppError('The Airplane you Requested does not Exists', StatusCodes.NOT_FOUND);
+        }
+        throw new AppError('something went wrong in service layer', StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+
+}
+
 module.exports = {
-    createAirplane
+    createAirplane,
+    getAirplanes,
+    getAirplanesByPK,
+    deleteAirplane,
+    updatesAirplane
 }
