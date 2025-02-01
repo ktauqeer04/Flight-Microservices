@@ -17,7 +17,7 @@ const createFlight = async (req, res) => {
                 totalSeats 
         } = req.body;
 
-        const airport = await FlightService.createFlight( { 
+        const flight = await FlightService.createFlight( { 
             flightNumber, 
             airplaneId, 
             departureAirportId, 
@@ -52,6 +52,26 @@ const createFlight = async (req, res) => {
     }
 }
 
+
+const findFlights = async (req, res) => {
+    try {
+
+        const query = req.query;
+
+        const flight = await FlightService.getAllFlights(query);
+
+        SuccessResponse.data = flight;
+
+        return res.status(StatusCodes.CREATED).json(SuccessResponse);
+
+    } catch (error) {
+        console.log(error);
+        ErrorResponse.error = error; // this error is custom class error i.e. AppError that we created 
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
+    }
+}
+
 module.exports = {
-    createFlight
+    createFlight,
+    findFlights 
 };

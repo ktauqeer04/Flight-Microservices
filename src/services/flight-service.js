@@ -27,6 +27,30 @@ const createFlight = async (data) => {
     }
 }
 
+const getAllFlights = async (query) => {
+    let customFLightObject = {};
+    if(query.trips){
+        [departureAirportId, arrivalAirportId] = query.trips.split("-");
+        if(departureAirportId == arrivalAirportId){
+            throw new AppError('Departure Airport Id and Arrival Airport ID cannot be same', StatusCodes.BAD_REQUEST);
+        }
+        customFLightObject.departureAirportId = departureAirportId;
+        customFLightObject.arrivalAirportId = arrivalAirportId;
+    }   
+
+    console.log(customFLightObject);
+
+    try {
+        const flights = await flightRepository.getCustomFlights(customFLightObject);
+        return flights;
+    } catch (error) {
+        console.log(error);
+        throw new AppError('Cannot fetch Flights', StatusCodes.BAD_REQUEST);
+    }
+
+}
+
 module.exports = {
-    createFlight
+    createFlight,
+    getAllFlights
 }

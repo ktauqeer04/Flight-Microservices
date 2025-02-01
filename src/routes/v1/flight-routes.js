@@ -7,6 +7,7 @@ const router = express.Router();
 
 //inside city route
 router.post('/', ValidateFlight.validateRequest, flightController.createFlight);
+router.get('/', flightController.findFlights);
 
 
 module.exports = router;
