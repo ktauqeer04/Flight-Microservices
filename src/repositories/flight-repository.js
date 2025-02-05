@@ -6,10 +6,11 @@ class FlightRepository extends crudRespository {
         super(Flight)
     }
 
-    async getCustomFlights(filter){
+    async getCustomFlights(filter, sort){
 
         const response = await this.model.findAll({
             where: filter,
+            order: [sort]
         });
         
         return response;

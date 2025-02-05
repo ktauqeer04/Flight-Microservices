@@ -31,6 +31,8 @@ const createFlight = async (data) => {
 const getAllFlights = async (query) => {
 
     let customFLightObject = {};
+    let customSortObject = {};
+    const EndTime = " 23:59:59";
 
     if(query.trips){
         [departureAirportId, arrivalAirportId] = query.trips.split("-");
@@ -44,13 +46,33 @@ const getAllFlights = async (query) => {
     if(query.price){
         [minPrice, maxPrice] = query.price.split("-");
         customFLightObject.price = {
-            [Op.between]: [minPrice, maxPrice]
+            [Op.between]: [(minPrice) ? minPrice : 0, (maxPrice) ? maxPrice : 20000]
         }
     }
-    console.log(customFLightObject);
+
+
+    if(query.travellers){
+        [adult, children, infants] = query.travellers.split("-");
+        const totalTravellers = Number(adult) + Number(children) + Number(infants);
+        customFLightObject.totalSeats = {
+            [Op.gte]: totalTravellers
+        }
+    }
+
+    if(query.time){
+        customFLightObject.departureTime = {
+            [Op.gte]: [query.trips, query.trips + EndTime] // 120325 + "00:00:00" to 120325 + "23:59:59"
+        }
+    }
+
+    if(query.sort){
+        const params = query.sort.split(",");
+        const sortFilter = params.map((query) => query.split("_"));
+        customSortObject = sortFilter;
+    }
 
     try {
-        const flights = await flightRepository.getCustomFlights(customFLightObject);
+        const flights = await flightRepository.getCustomFlights(customFLightObject, customSortObject);
         return flights;
     } catch (error) {
         console.log(error);
