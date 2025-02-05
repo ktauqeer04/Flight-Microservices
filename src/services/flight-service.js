@@ -43,7 +43,11 @@ const getAllFlights = async (query) => {
 
     if(query.price){
         [minPrice, maxPrice] = query.price.split("-");
+        customFLightObject.price = {
+            [Op.between]: [minPrice, maxPrice]
+        }
     }
+    console.log(customFLightObject);
 
     try {
         const flights = await flightRepository.getCustomFlights(customFLightObject);
