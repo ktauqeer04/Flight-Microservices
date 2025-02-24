@@ -99,8 +99,24 @@ const getFlightsByPk = async (data) => {
     }
 }
 
+
+const updateFLightSeats = async (data) => {
+
+    try {
+
+        const updateSeat = await flightRepository.updateSeats(data);
+        return updateSeat;
+
+    } catch (error) {
+        console.error(error);
+        throw new Error('Something went wrong', StatusCodes.BAD_REQUEST);
+    }
+
+}
+
 module.exports = {
     createFlight,
     getAllFlights,
-    getFlightsByPk
+    getFlightsByPk,
+    updateFLightSeats
 }

@@ -11,7 +11,7 @@ class FlightRepository extends crudRespository {
     async getCustomFlights(filter, sort){
         
         
-        const response = await this.model.findAll({
+        const response = await Flight.findAll({
             where: filter,
             include: [
                 {
@@ -37,8 +37,24 @@ class FlightRepository extends crudRespository {
             ]
         });
         
-        
         return response;
+
+    }
+
+
+    async updateSeats({flightId, seats, decrease}){
+
+        console.log(flightId);
+        const flights = await Flight.findByPk(flightId);
+
+        if(decrease){
+            await flights.decrement('totalSeats', {by: seats});
+        }else{
+            await flights.increment('totalSeats', {by: seats});
+        }
+
+        return flights;
+
     }
 
 }

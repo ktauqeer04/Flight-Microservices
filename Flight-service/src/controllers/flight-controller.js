@@ -73,6 +73,7 @@ const findFlights = async (req, res) => {
 
 
 const getSpecificFlight = async (req, res) => {
+
     try {
 
         const id = req.params.id;
@@ -88,11 +89,32 @@ const getSpecificFlight = async (req, res) => {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
 
     }
+
+}
+
+
+const updateFlightSeats = async (req, res) => {
+
+    try {
+
+        const { flightId, seats, decrease } = req.body;
+        console.log({ flightId, seats, decrease });
+        const updateSeat = await FlightService.updateFLightSeats({ flightId, seats, decrease });
+        return updateSeat;
+
+    } catch (error) {
+        
+        ErrorResponse.error = error;
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(ErrorResponse);
+
+    }
+
 }
 
 
 module.exports = {
     createFlight,
     findFlights,
-    getSpecificFlight
+    getSpecificFlight,
+    updateFlightSeats
 };
