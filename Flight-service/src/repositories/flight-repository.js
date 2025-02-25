@@ -44,7 +44,6 @@ class FlightRepository extends crudRespository {
 
     async updateSeats({flightId, seats, decrease}){
 
-        console.log(flightId);
         const flights = await Flight.findByPk(flightId);
 
         if(decrease){
