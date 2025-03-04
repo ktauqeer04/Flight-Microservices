@@ -97,7 +97,11 @@ const updateFlightSeats = async (req, res) => {
 
     try {
 
-        const { flightId, seats, decrease } = req.body;
+        const { seats, decrease } = req.body;
+        const { id } = req.params;
+
+        const flightId = parseInt(id);
+
         console.log({ flightId, seats, decrease });
         const updateSeat = await FlightService.updateFLightSeats({ flightId, seats, decrease });
         
