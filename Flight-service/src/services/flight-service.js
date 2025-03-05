@@ -47,7 +47,7 @@ const getAllFlights = async (query) => {
         [minPrice, maxPrice] = query.price.split("-");
         customFLightObject.price = {
             [Op.between]: [(minPrice) ? minPrice : 0, (maxPrice) ? maxPrice : 20000]
-        }
+        }   
     }
 
 
