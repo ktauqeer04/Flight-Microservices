@@ -99,6 +99,8 @@ const getFlightsByPk = async (data) => {
     }
 }
 
+// data will come from message queues
+
 
 const updateFLightSeats = async (data) => {
 

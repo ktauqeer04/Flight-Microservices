@@ -9,6 +9,6 @@ const router = express.Router();
 router.post('/', ValidateFlight.validateRequest, flightController.createFlight);
 router.get('/', flightController.findFlights);
 router.get('/:id', flightController.getSpecificFlight);
-router.patch('/:id/seats', ValidateFlight.validateInputs ,flightController.updateFlightSeats)
+router.patch('/:id/seats', ValidateFlight.validateInputs , flightController.updateFlightSeats)
 
 module.exports = router;
