@@ -1,4 +1,5 @@
 const { connect } = require("amqplib");
+const { updateFLightSeats } = require("../../services/flight-service");
 
 class RabbitMQClient {
   constructor(exchangeName, bindingKey, queueName) {
@@ -28,17 +29,16 @@ class RabbitMQClient {
 
     this.channel.consume(this.queueName, async (msg) => {
       if (msg) {
-        // console.log("Received message:", msg.content.toString());
         const message = msg.content.toString();
-        await onMessage(message);
+        
+        // console.log(JSON.parse(message));
+        await updateFLightSeats(JSON.parse(message));
+
         this.channel.ack(msg);
       }
     });
   }
 
-  async getResponse(){
-
-  }
 
 }
 
