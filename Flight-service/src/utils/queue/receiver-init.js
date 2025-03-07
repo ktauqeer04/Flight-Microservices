@@ -17,7 +17,7 @@ class RabbitMQClient {
     );
   }
 
-  async subscribe() {
+  async subscribe(onMessage) {
     console.log("Waiting For Messages!");
     await this.channel.assertQueue(this.queueName);
     await this.channel.bindQueue(
@@ -26,13 +26,20 @@ class RabbitMQClient {
       this.bindingKey
     );
 
-    this.channel.consume(this.queueName, (msg) => {
-      if (msg !== null) {
-        console.log("Received message:", msg.content.toString());
+    this.channel.consume(this.queueName, async (msg) => {
+      if (msg) {
+        // console.log("Received message:", msg.content.toString());
+        const message = msg.content.toString();
+        await onMessage(message);
         this.channel.ack(msg);
       }
     });
   }
+
+  async getResponse(){
+
+  }
+
 }
 
 module.exports = { RabbitMQClient };
