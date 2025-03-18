@@ -11,10 +11,12 @@ class FlightRepository extends crudRespository {
         super(Flight)
     }
 
-    async getCustomFlights(filter, sort){
+    async getCustomFlights(filter, limit, skip){
         
         
         const response = await Flight.findAll({
+            limit: limit,
+            offset: skip,
             where: filter,
             include: [
                 {

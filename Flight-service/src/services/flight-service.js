@@ -28,11 +28,14 @@ const createFlight = async (data) => {
     }
 }
 
-const getAllFlights = async (query) => {
+const getAllFlights = async (query, page) => {
 
     let customFLightObject = {};
     let customSortObject = {};
     const EndTime = " 23:59:59";
+
+    const limit = 5
+    const skip = (page - 1) * limit;
 
     if(query.trips){
         [departureAirportId, arrivalAirportId] = query.trips.split("-");
@@ -72,7 +75,7 @@ const getAllFlights = async (query) => {
     }
 
     try {
-        const flights = await flightRepository.getCustomFlights(customFLightObject, customSortObject);
+        const flights = await flightRepository.getCustomFlights(customFLightObject, limit, skip);
         return flights;
     } catch (error) {
         console.log(error);

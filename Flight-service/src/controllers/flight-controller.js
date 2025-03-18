@@ -57,8 +57,9 @@ const findFlights = async (req, res) => {
     try {
 
         const query = req.query;
+        const page = Number(req.query.page) <= 0 || !Number(req.query.page) ? 1 : Number(req.query.page);
 
-        const flight = await FlightService.getAllFlights(query);
+        const flight = await FlightService.getAllFlights(query, page);
 
         SuccessResponse.data = flight;
 
@@ -77,6 +78,7 @@ const getSpecificFlight = async (req, res) => {
     try {
 
         const id = req.params.id;
+        
         const flight = await FlightService.getFlightsByPk(id);
         
         SuccessResponse.data = flight;
